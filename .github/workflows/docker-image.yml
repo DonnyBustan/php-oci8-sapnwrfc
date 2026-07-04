@@ -30,7 +30,7 @@ jobs:
     - name: Log in to DOCKERHUB
       uses: docker/login-action@v3
       with:
-        username: "entaahlaah"
+        username: "donnysisi"
         password: ${{ secrets.DOCKERHUBTOKEN }}
     - name: Generate ENV
       id: date
