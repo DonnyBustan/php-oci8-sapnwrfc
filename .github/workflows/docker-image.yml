@@ -20,6 +20,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Set lowercase repository name
+      run: |
+        echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
@@ -66,10 +70,11 @@ jobs:
         context: .
         push: true
         tags: |
-          ghcr.io/${{ env.IMAGE_NAME }}
-          ghcr.io/${{ github.repository }}:${{ steps.date.outputs.PHP_VERSION }}
-          donnysisi/php85-oci8-sapnwrfc:${{ github.ref_name }}
-          donnysisi/php85-oci8-sapnwrfc:${{ steps.date.outputs.PHP_VERSION }}
+          ghcr.io/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.date.outputs.PHP_VERSION }}
+          donnysisi/php:${{ github.ref_name }}
+          donnysisi/php:${{ steps.date.outputs.PHP_VERSION }}
+          donnysisi/php:latest
         labels: |
           org.opencontainers.image.authors=donnysisi
         cache-from: type=gha
